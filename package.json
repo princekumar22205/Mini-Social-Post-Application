@@ -1,0 +1,13 @@
+{
+  "name": "mini-social-app",
+  "version": "1.0.0",
+  "description": "Mini Social Post Application",
+  "scripts": {
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+}
