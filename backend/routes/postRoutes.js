@@ -90,16 +90,29 @@ router.post("/:id/like", auth, async(req, res)=>{
 
 //comments
 
-router.post("/:id/comment", async(req, res)=>{
-    const post = await Post.findById(req.params.id)
+router.post("/:id/comment", auth, async(req, res)=>{
+    try {
+        const post = await Post.findById(req.params.id);
+        
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
 
-    post.comments.push({
-        username: req.User.username,
-        text: req.body.text
-    })
+        if (!req.body.text || !req.body.text.trim()) {
+            return res.status(400).json({ message: "Comment text cannot be empty" });
+        }
 
-    await post.save();
-    res.json(post);
+        post.comments.push({
+            username: req.User.username,
+            text: req.body.text
+        });
+
+        await post.save();
+        res.json(post);
+    } catch(err) {
+        console.error('Comment error:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
 })
 
 

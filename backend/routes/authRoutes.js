@@ -7,21 +7,31 @@ const User = require("../models/User")
 //create the user - signUp
 
 router.post("/signUp", async(req, res)=>{
-    const {username, email, password} = req.body;
+    try{
+        const {username, email, password} = req.body;
 
-    const exist = await User.findOne({email});
-    if(exist){
-        return res.status(400).json({message:"user already exist"});
+        if(!username || !email || !password){
+            return res.status(400).json({message: "All fields are required"});
+        }
+
+        const exist = await User.findOne({email});
+        if(exist){
+            return res.status(400).json({message:"user already exist"});
+        }
+
+        const hashedpassword = await bcrypt.hash(password, 10);
+
+        const user = await User.create({
+           username,
+            email,
+            password : hashedpassword
+        });
+        console.log('User created:', user._id);
+        res.status(201).json({message:"user is successfully created"});
+    } catch(err){
+        console.error('Signup error:', err);
+        res.status(500).json({message: 'Server error'});
     }
-
-    const hashedpassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-       username,
-        email,
-        password : hashedpassword
-    });
-    res.status(201).json({message:"user is successfully created"});
 });
 
 

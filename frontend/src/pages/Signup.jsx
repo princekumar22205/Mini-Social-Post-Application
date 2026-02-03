@@ -18,11 +18,17 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
+    if (!username || !email || !password) {
+      alert("All fields are required");
+      return;
+    }
     try {
-      await API.post("/auth/signup", { username, email, password });
-      navigate("/");
-    } catch {
-      alert("Signup failed");
+      await API.post("/auth/signUp", { username, email, password });
+      alert("Account created successfully! Please login.");
+      navigate("/login");
+    } catch (err) {
+      const msg = err.response?.data?.message || err.message || "Signup failed";
+      alert(msg);
     }
   };
 
