@@ -62,7 +62,7 @@ const PostCard = ({ post, refresh }) => {
         <Typography>{post.text}</Typography>
 
         {post.image && (
-          <img src={`https://mini-social-post-application-vodu.onrender.com${post.image}`} alt="post" width="100%" style={{ marginTop: 10 }} />
+          <img src={post.image} alt="" width="100%" style={{ marginTop: 10 }} />
         )}
 
         <Divider sx={{ my: 2 }} />
@@ -94,8 +94,6 @@ const PostCard = ({ post, refresh }) => {
             </Box>
           </Grid>
         </Grid>
-
-        <img src="" alt="" />
 
         <Dialog open={commentOpen} onClose={() => setCommentOpen(false)} maxWidth="sm" fullWidth>
           <Box sx={{ p: 3 }}>

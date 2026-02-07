@@ -46,9 +46,8 @@ router.post("/", auth, upload.single('image'), async (req, res) => {
 
         console.log('Post created successfully:', post);
         const postObj = post.toObject();
-        const baseUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get('host')}`;
         if (postObj.image) {
-            postObj.image = `${baseUrl}${postObj.image}`;
+            postObj.image = `http://localhost:5000${postObj.image}`;
         }
         res.json({ post: postObj });
     } catch (err) {
@@ -62,11 +61,10 @@ router.post("/", auth, upload.single('image'), async (req, res) => {
 router.get("/",async(req,res)=>{
 
     const posts = await Post.find().sort({createdAt: -1});
-    const baseUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get('host')}`;
     const postsWithImages = posts.map(post => {
         const postObj = post.toObject();
         if (postObj.image && !postObj.image.startsWith('http')) {
-            postObj.image = `${baseUrl}${postObj.image}`;
+            postObj.image = `http://localhost:5000${postObj.image}`;
         }
         return postObj;
     });
