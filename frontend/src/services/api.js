@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "https://mini-social-post-application-vodu.onrender.com"
+  baseURL: "https://mini-social-post-application-vodu.onrender.com/api"
 });
 
 API.interceptors.request.use((req) => {
